@@ -8,4 +8,4 @@ helm template tunnelchart --debug
 
 helm show all tunnelchart --debug
 
-helm install helper tunnelchart --debug
+helm install tunnel tunnelchart
