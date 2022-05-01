@@ -22,3 +22,15 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+service:
+  type: ClusterIP
+  ports:
+    rpc: 8332
+    zmqpubrawtx: 28333
+    zmqpubrawblock: 28332
+    p2p: 8333
+    trpc: 18332
+    tzmqpubrawtx: 21333
+    tzmqpubrawblock: 21332
+    tp2p: 18333

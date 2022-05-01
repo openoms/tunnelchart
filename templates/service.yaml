@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "alpine.fullname" . }}
+  labels:
+    {{- include "alpine.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: rpc
+      port: {{ .Values.global.service.ports.rpc }}
+    - name: p2p
+      port: {{ .Values.service.ports.p2p }}
+    - name: zmqpubrawtx
+      port: {{ .Values.service.ports.zmqpubrawtx }}
+    - name: zmqpubrawblock
+      port: {{ .Values.service.ports.zmqpubrawblock }}
+    - name: trpc
+      port: {{ .Values.global.service.ports.trpc }}
+    - name: tp2p
+      port: {{ .Values.service.ports.tp2p }}
+    - name: tzmqpubrawtx
+      port: {{ .Values.service.ports.tzmqpubrawtx }}
+    - name: tzmqpubrawblock
+      port: {{ .Values.service.ports.tzmqpubrawblock }}
+  selector:
+    {{- include "alpine.selectorLabels" . | nindent 4 }}
