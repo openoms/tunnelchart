@@ -1,0 +1,24 @@
+# Default values for tunnel.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+image:
+  repository: alpine
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+restartPolicy: Never
+kubemonkey:
+  enabled: false
+configmap:
+  customValues: []
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+
+terminationGracePeriodSeconds: 1
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
