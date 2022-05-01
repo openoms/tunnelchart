@@ -2,21 +2,20 @@ Helper script to run on the host:
 
 k8stunnel() {
     POD="$1"
-    CONTAINER="$2"
-    HOSTPORT="$3"
-    PODPORT="$4"
-    if [ -z "$POD" -o -z "$CONTAINER" -o -z "$HOSTPORT" -o -z "$PODPORT" ]; then
+    HOSTPORT="$2"
+    PODPORT="$3"
+    if [ -z "$POD" -o -z "$HOSTPORT" -o -z "$PODPORT" ]; then
     	echo "Usage: k8stunnel [pod name] [container] [host port] [pod port]"
         return 1
     fi
     pkill -f 'nc 127.0.0.1 "$HOSTPORT"'
-    kubectl exec -it "$POD" -c "$CONTAINER"  -- apk add ucspi-tcp6
-    nc 127.0.0.1 "$HOSTPORT" | microk8s kubectl exec -it "$POD" -c "$CONTAINER" -- tcpserver 127.0.0.1 "$PODPORT" cat &
+    kubectl exec -it "$POD" -- apk add ucspi-tcp6
+    nc 127.0.0.1 "$HOSTPORT" | microk8s kubectl exec -it "$POD" -- tcpserver 127.0.0.1 "$PODPORT" cat &
     echo "To access the host:"$HOSTPORT" Connect to 127.0.0.1:"$HOSTPORT" in the pod"
 }
 
 Forward the bitcoind testnet ports from the host to the tunnel pod:
 
-k8stunnel {{ include "alpine.fullname" . }}-0 {{ include "alpine.fullname" . }} 18332 18332
-k8stunnel {{ include "alpine.fullname" . }}-0 {{ include "alpine.fullname" . }} 21332 21332
-k8stunnel {{ include "alpine.fullname" . }}-0 {{ include "alpine.fullname" . }} 21333 21333
+k8stunnel {{ include "alpine.fullname" . }} 18332 18332
+k8stunnel {{ include "alpine.fullname" . }} 21332 21332
+k8stunnel {{ include "alpine.fullname" . }} 21333 21333
